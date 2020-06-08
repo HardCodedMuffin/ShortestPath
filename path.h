@@ -1,20 +1,22 @@
-#pragma once
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <queue>
 
-constexpr auto V = 8;
+# define MAX INT_MAX
 
-class path
-{
+using namespace std;
+
+const int V = 9;
+//int node1, node2, cost;
+
+typedef pair<int, int> iPair;
+
+//ifstream file;
+
+class path {
 public:
-    
-    int graph[3][8];
-    int n, m, c;
-    
-    path();
-    void dijkstra(int graph[V][V], int src, int target);
-    void printSolution(int dist[]);
-    int minDistance(int dist[], bool shortestPath[]);
-    void cukstra();
-
-
+	void addEdge(vector <pair<int, int> > adj[], int u, int v, int wt);
+	void shortestPath(vector<pair<int, int> > adj[], int V, int src);
+	void fileBuffer();
 };
-

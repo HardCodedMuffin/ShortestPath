@@ -1,80 +1,40 @@
 #include "path.h"
-#include <limits.h> 
-#include <iostream>
-#include <iomanip>
-#include <fstream>
 
-using namespace std;
-
-ifstream inFile;
-
-path::path() {
-
-    inFile.open("test.txt");
-    inFile >> n >> m >> c;
-
-    if (!inFile) {
-        cout << "Unable to open file";
-        exit(1); // terminate with error
-    }
+void path::addEdge(vector <pair<int, int> > adj[], int u,
+    int v, int wt)
+{
+    adj[u].push_back(make_pair(v, wt));
+    adj[v].push_back(make_pair(u, wt));
 }
 
-void path::printSolution(int dist[])
+void path::shortestPath(vector<pair<int, int> > adj[], int V, int src)
 {
-    std::cout << "Vertex \t\t Distance from Source\n";
-    for (int i = 0; i < V; i++)
-        std::cout << i << " \t\t " << dist[i] << std::endl;
-}
+    priority_queue< iPair, vector <iPair>, greater<iPair> > pq;
 
-int path::minDistance(int dist[], bool shortestPath[])
-{
-    int min = INT_MAX, min_index;
+    vector<int> dist(V, MAX);
 
-    for (int v = 0; v < V; v++) {
-        if (shortestPath[v] == false && dist[v] <= min)
-            min = dist[v], min_index = v;
-    }
-    return min_index;
-}
-
-void path::dijkstra(int graph[V][V], int src, int target)
-{
-    int dist[V];
-
-    bool shortestPath[V];
-
-    for (int i = 0; i < V; i++)
-        dist[i] = INT_MAX, shortestPath[i] = false;
-
+    pq.push(make_pair(0, src));
     dist[src] = 0;
 
-    for (int count = 0; count < V - 1; count++) {
-
-        int u = minDistance(dist, shortestPath);
-
-        shortestPath[u] = true;
-
-        for (int v = src; v <= target; v++)
-
-            if (!shortestPath[v] && graph[u][v] && dist[u] != INT_MAX
-                && dist[u] + graph[u][v] < dist[v])
-                dist[v] = dist[u] + graph[u][v];
-    }
-
-    printSolution(dist);
-}
-
-void path::cukstra() {
-
-    int node1, node2, cost, j = 0;
-
-    for (int i = 0; i < n; i++)
+    while (!pq.empty())
     {
-        inFile >> node1 >> node2 >> cost;
-        graph[i][j] = node1;
-        graph[i][j + 1] = node2;
-        graph[i][j + 2] = cost;
+        int u = pq.top().second;
+        pq.pop();
+
+        for (auto x : adj[u])
+        {
+            int v = x.first;
+            int weight = x.second;
+
+            if (dist[v] > dist[u] + weight)
+            {
+                dist[v] = dist[u] + weight;
+                pq.push(make_pair(dist[v], v));
+            }
+        }
     }
 
-    dijkstra(graph, 2, 8);
+    printf("Vertex Distance from Source\n");
+    for (int i = 0; i < V; ++i)
+        printf("%d \t\t %d\n", i, dist[i]);
 }

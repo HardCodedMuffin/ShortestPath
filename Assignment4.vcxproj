@@ -151,10 +151,10 @@
     <ClCompile Include="path.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="path.h" />
+    <Text Include="map.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="test.txt" />
+    <ClInclude Include="path.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
