@@ -6,8 +6,7 @@ using namespace std;
 int main()
 {
     path shortest;
+    shortest.cukstra();
    
-    //dijkstra(graph, 1, 4);
-
     return 0;
 }

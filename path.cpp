@@ -9,7 +9,7 @@ using namespace std;
 ifstream inFile;
 
 path::path() {
-    
+
     inFile.open("test.txt");
     inFile >> n >> m >> c;
 
@@ -17,8 +17,6 @@ path::path() {
         cout << "Unable to open file";
         exit(1); // terminate with error
     }
-
-    cout << n << m << c;
 }
 
 void path::printSolution(int dist[])
@@ -36,7 +34,6 @@ int path::minDistance(int dist[], bool shortestPath[])
         if (shortestPath[v] == false && dist[v] <= min)
             min = dist[v], min_index = v;
     }
-    printSolution(dist);
     return min_index;
 }
 
@@ -66,6 +63,18 @@ void path::dijkstra(int graph[V][V], int src, int target)
 
     printSolution(dist);
 }
-void path::cukstra(int node1, int node2, int cost) {
-    inFile >> node1 >> node2 >> cost;
+
+void path::cukstra() {
+
+    int node1, node2, cost, j = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        inFile >> node1 >> node2 >> cost;
+        graph[i][j] = node1;
+        graph[i][j + 1] = node2;
+        graph[i][j + 2] = cost;
+    }
+
+    dijkstra(graph, 2, 8);
 }
