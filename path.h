@@ -8,15 +8,17 @@
 using namespace std;
 
 const int V = 9;
-//int node1, node2, cost;
 
-typedef pair<int, int> iPair;
-
-//ifstream file;
+typedef pair<int, int> param;
 
 class path {
+private:
+	ifstream file;
+	vector<vector<param>> nodecst;
+	int node, edge, cost;
 public:
-	void addEdge(vector <pair<int, int> > adj[], int u, int v, int wt);
-	void shortestPath(vector<pair<int, int> > adj[], int V, int src);
 	void fileBuffer();
+	void addEdge(vector<vector<param>> adj, int u, int v, int wt);
+	void dijkstra(vector<vector<param>> adj, int V, int src);
 };
+

@@ -1,40 +1,63 @@
 #include "path.h"
 
-void path::addEdge(vector <pair<int, int> > adj[], int u,
-    int v, int wt)
+
+
+void path::addEdge(vector<vector<param>> nodecst, int e, int v, int cost)
 {
-    adj[u].push_back(make_pair(v, wt));
-    adj[v].push_back(make_pair(u, wt));
+    nodecst[e].push_back(make_pair(v, cost));
+    nodecst[v].push_back(make_pair(e, cost));
+
 }
 
-void path::shortestPath(vector<pair<int, int> > adj[], int V, int src)
+void path::dijkstra(vector<vector<param>> nodecst, int V, int src)
 {
-    priority_queue< iPair, vector <iPair>, greater<iPair> > pq;
+    priority_queue< param, vector <param>, greater<param> > queue;
 
-    vector<int> dist(V, MAX);
+    vector<int> distance(V, MAX);
 
-    pq.push(make_pair(0, src));
-    dist[src] = 0;
+    queue.push(make_pair(0, src));
+    distance[src] = 0;
 
-    while (!pq.empty())
+    while (!queue.empty())
     {
-        int u = pq.top().second;
-        pq.pop();
+        int e = queue.top().second;
+        queue.pop();
 
-        for (auto x : adj[u])
+        for (auto x : nodecst[e])
         {
             int v = x.first;
-            int weight = x.second;
+            int cost = x.second;
 
-            if (dist[v] > dist[u] + weight)
+            if (distance[v] > distance[e] + cost)
+
             {
-                dist[v] = dist[u] + weight;
-                pq.push(make_pair(dist[v], v));
+                distance[v] = distance[e] + cost;
+                queue.push(make_pair(distance[v], v));
             }
         }
     }
 
-    printf("Vertex Distance from Source\n");
+    cout << "Vertex \t Distance from Source\n";
     for (int i = 0; i < V; ++i)
-        printf("%d \t\t %d\n", i, dist[i]);
+        cout << i << "\t " << distance[i] << endl;
+}
+
+
+void path::fileBuffer()
+{
+    file.open("map.txt");
+    if (!file) {
+        cout << "Unable to open file";
+        exit(1); // terminate with error
+    }
+    file >> node >> edge >> cost;
+    const int ncs = node;
+    //vector<pair<int, int>> nodecst[ncs];
+
+    for (int i = 0; i < V; i++)
+    {
+        file >> node >> edge >> cost;
+        addEdge(nodecst, node, edge, cost);
+    }
+    dijkstra(nodecst, V, 0);
 }
