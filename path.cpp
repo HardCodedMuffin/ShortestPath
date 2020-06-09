@@ -1,17 +1,15 @@
 #include "path.h"
 
-
-
-void path::addEdge(vector<vector<param>> nodecst, int e, int v, int cost)
+void path::addEdge(vector<vector<param>> *nodecst, int e, int v, int cost)
 {
-    nodecst[e].push_back(make_pair(v, cost));
-    nodecst[v].push_back(make_pair(e, cost));
-
+    nodecst->at(e).push_back(make_pair(v, cost));
+    nodecst->at(v).push_back(make_pair(e, cost));
 }
 
 void path::dijkstra(vector<vector<param>> nodecst, int V, int src)
 {
-    priority_queue< param, vector <param>, greater<param> > queue;
+    priority_queue<param, vector <param>, greater<param> > queue;
+    vector<int> pathQueue;
 
     vector<int> distance(V, MAX);
 
@@ -32,9 +30,16 @@ void path::dijkstra(vector<vector<param>> nodecst, int V, int src)
 
             {
                 distance[v] = distance[e] + cost;
+                pathQueue.push_back(e);
+                
                 queue.push(make_pair(distance[v], v));
             }
         }
+    }
+
+    for (size_t i = 0; i < pathQueue.size(); i++)
+    {
+        cout << pathQueue.at(i);
     }
 
     cout << "Vertex \t Distance from Source\n";
@@ -45,19 +50,24 @@ void path::dijkstra(vector<vector<param>> nodecst, int V, int src)
 
 void path::fileBuffer()
 {
+    int node;
     file.open("map.txt");
     if (!file) {
         cout << "Unable to open file";
         exit(1); // terminate with error
     }
-    file >> node >> edge >> cost;
-    const int ncs = node;
+
+    file >> treeSize >> edge >> cost;
+    const int ncs = treeSize;
+
     //vector<pair<int, int>> nodecst[ncs];
 
-    for (int i = 0; i < V; i++)
+    nodecst.resize(treeSize);
+
+    for (int i = 0; i < treeSize; i++)
     {
         file >> node >> edge >> cost;
-        addEdge(nodecst, node, edge, cost);
+        addEdge(&nodecst, node, edge, cost);
     }
-    dijkstra(nodecst, V, 0);
+    dijkstra(nodecst, treeSize, 4);
 }
