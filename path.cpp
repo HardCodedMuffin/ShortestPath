@@ -16,7 +16,7 @@ void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int destinati
     queue.push(make_pair(0, destination));
 
     distance[destination] = 0;
-    visited.at(0) = -1;
+    visited.at(0) = randomSrc;
 
     while (!queue.empty())
     {
@@ -39,7 +39,6 @@ void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int destinati
     cout << randomSrc << endl;
     cout << distance[randomSrc] << endl;
     printPath(visited, visited[randomSrc]);
-
 }
 
 
@@ -77,5 +76,5 @@ void path::fileBuffer()
         file >> node >> edge >> cost;
         addEdge(&adjacents, node, edge, cost);
     }
-    dijkstra(adjacents, treeSize, 7);
+    dijkstra(adjacents, treeSize, treeSize-1);
 }
