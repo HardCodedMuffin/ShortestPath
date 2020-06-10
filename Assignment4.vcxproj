@@ -151,7 +151,7 @@
     <ClCompile Include="path.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="map.txt" />
+    <Text Include="input.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="path.h" />

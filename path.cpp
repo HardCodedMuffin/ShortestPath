@@ -6,15 +6,17 @@ void path::addEdge(vector<vector<param>> *adjacents, int source, int destination
     adjacents->at(destination).push_back(make_pair(source, cost));
 }
 
-void path::dijkstra(vector<vector<param>> adjacents, int V, int src)
+void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int src)
 {
-    priority_queue<param, vector <param>, greater<param> > queue;
-    vector<int> pathQueue;
+    priority_queue <param, vector <param>, greater<param> > queue;
 
-    vector<int> distance(V, MAX);
+    vector<int> distance(treeSize, MAX);
+    vector<int> parent;
 
     queue.push(make_pair(0, src));
+
     distance[src] = 0;
+    //parent.clear();
 
     while (!queue.empty())
     {
@@ -27,26 +29,37 @@ void path::dijkstra(vector<vector<param>> adjacents, int V, int src)
             int cost = x.second;
 
             if (distance[v] > distance[u] + cost)
-
             {
+                //parent.push_back(v);
                 distance[v] = distance[u] + cost;
-                pathQueue.push_back(u);
-                
                 queue.push(make_pair(distance[v], v));
             }
         }
     }
 
     cout << "Vertex \t Distance from Source\n";
-    for (int i = 0; i < V; ++i)
+    for (int i = 0; i < treeSize; ++i) {
         cout << i << "\t " << distance[i] << endl;
+        //printPath(parent, parent[j]);
+    }
 }
+
+//To DO
+//void path::printPath(int parent[], int j)
+//{
+//    if (parent[j] == -1)
+//        return;
+//
+//    printPath(parent, parent[j]);
+//
+//    cout << j;
+//}
 
 
 void path::fileBuffer()
 {
     int node;
-    file.open("map.txt");
+    file.open("input.txt");
     if (!file) {
         cout << "Unable to open file";
         exit(1); // terminate with error
@@ -63,6 +76,6 @@ void path::fileBuffer()
         addEdge(&nodecst, node, edge, cost);
     }
     srand(time(NULL));
-    randomSrc = rand() % node;
+    randomSrc = rand() % edge;
     dijkstra(nodecst, treeSize, randomSrc);
 }

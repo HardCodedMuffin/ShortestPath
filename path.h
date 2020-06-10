@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const int treeSize = 9;
+const int treeSize = 0;
 
 typedef pair<int, int> param;
 
@@ -18,8 +18,9 @@ private:
 	vector<vector<param>> nodecst;
 	int treeSize, edge, cost, randomSrc;
 public:
+	void addEdge(vector<vector<param>> *adjacents, int source, int destination, int cost);
+	void dijkstra(vector<vector<param>> adjacents, int V, int src);
 	void fileBuffer();
-	void addEdge(vector<vector<param>> *adj, int u, int v, int wt);
-	void dijkstra(vector<vector<param>> adj, int V, int src);
+	//void printPath(vector<param> parent, int j);
 };
 

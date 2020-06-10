@@ -28,7 +28,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="map.txt">
+    <Text Include="input.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
