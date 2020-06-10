@@ -21,6 +21,6 @@ public:
 	void addEdge(vector<vector<param>> *adjacents, int source, int destination, int cost);
 	void dijkstra(vector<vector<param>> adjacents, int V, int src);
 	void fileBuffer();
-	//void printPath(vector<param> parent, int j);
+	void printPath(vector<int> parent, int j);
 };
 

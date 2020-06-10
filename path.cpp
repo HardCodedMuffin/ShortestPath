@@ -11,12 +11,12 @@ void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int src)
     priority_queue <param, vector <param>, greater<param> > queue;
 
     vector<int> distance(treeSize, MAX);
-    vector<int> parent;
+    vector<int> visited(treeSize);
 
     queue.push(make_pair(0, src));
 
     distance[src] = 0;
-    //parent.clear();
+    visited.at(0) = -1;
 
     while (!queue.empty())
     {
@@ -30,30 +30,31 @@ void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int src)
 
             if (distance[v] > distance[u] + cost)
             {
-                //parent.push_back(v);
+                visited.at(v) = u;
                 distance[v] = distance[u] + cost;
                 queue.push(make_pair(distance[v], v));
             }
         }
     }
 
-    cout << "Vertex \t Distance from Source\n";
+    cout << "Vertex \t Distance from Source \tPath\n";
     for (int i = 0; i < treeSize; ++i) {
-        cout << i << "\t " << distance[i] << endl;
-        //printPath(parent, parent[j]);
+        cout << i << "\t " << distance[i] << "\t\t\t";
+        printPath(visited, visited[i]);
+        cout << endl;
     }
 }
 
-//To DO
-//void path::printPath(int parent[], int j)
-//{
-//    if (parent[j] == -1)
-//        return;
-//
-//    printPath(parent, parent[j]);
-//
-//    cout << j;
-//}
+
+void path::printPath(vector<int> visited, int src)
+{
+    if (visited[src] == NULL)
+        return;
+
+    printPath(visited, visited[src]);
+
+    cout << src << " ";
+}
 
 
 void path::fileBuffer()
