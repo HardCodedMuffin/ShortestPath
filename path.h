@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <queue>
+#include <time.h>
 
 # define MAX INT_MAX
 
@@ -15,7 +16,7 @@ class path {
 private:
 	ifstream file;
 	vector<vector<param>> nodecst;
-	int treeSize, edge, cost;
+	int treeSize, edge, cost, randomSrc;
 public:
 	void fileBuffer();
 	void addEdge(vector<vector<param>> *adj, int u, int v, int wt);

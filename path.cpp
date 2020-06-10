@@ -1,12 +1,12 @@
 #include "path.h"
 
-void path::addEdge(vector<vector<param>> *nodecst, int e, int v, int cost)
+void path::addEdge(vector<vector<param>> *adjacents, int source, int destination, int cost)
 {
-    nodecst->at(e).push_back(make_pair(v, cost));
-    nodecst->at(v).push_back(make_pair(e, cost));
+    adjacents->at(source).push_back(make_pair(destination, cost));
+    adjacents->at(destination).push_back(make_pair(source, cost));
 }
 
-void path::dijkstra(vector<vector<param>> nodecst, int V, int src)
+void path::dijkstra(vector<vector<param>> adjacents, int V, int src)
 {
     priority_queue<param, vector <param>, greater<param> > queue;
     vector<int> pathQueue;
@@ -18,28 +18,23 @@ void path::dijkstra(vector<vector<param>> nodecst, int V, int src)
 
     while (!queue.empty())
     {
-        int e = queue.top().second;
+        int u = queue.top().second;
         queue.pop();
 
-        for (auto x : nodecst[e])
+        for (auto x : adjacents[u])
         {
             int v = x.first;
             int cost = x.second;
 
-            if (distance[v] > distance[e] + cost)
+            if (distance[v] > distance[u] + cost)
 
             {
-                distance[v] = distance[e] + cost;
-                pathQueue.push_back(e);
+                distance[v] = distance[u] + cost;
+                pathQueue.push_back(u);
                 
                 queue.push(make_pair(distance[v], v));
             }
         }
-    }
-
-    for (size_t i = 0; i < pathQueue.size(); i++)
-    {
-        cout << pathQueue.at(i);
     }
 
     cout << "Vertex \t Distance from Source\n";
@@ -60,8 +55,6 @@ void path::fileBuffer()
     file >> treeSize >> edge >> cost;
     const int ncs = treeSize;
 
-    //vector<pair<int, int>> nodecst[ncs];
-
     nodecst.resize(treeSize);
 
     for (int i = 0; i < treeSize; i++)
@@ -69,5 +62,7 @@ void path::fileBuffer()
         file >> node >> edge >> cost;
         addEdge(&nodecst, node, edge, cost);
     }
-    dijkstra(nodecst, treeSize, 4);
+    srand(time(NULL));
+    randomSrc = rand() % node;
+    dijkstra(nodecst, treeSize, randomSrc);
 }
