@@ -15,12 +15,12 @@ typedef pair<int, int> param;
 class path {
 private:
 	ifstream file;
-	vector<vector<param>> nodecst;
+	vector<vector<param>> adjacents;
 	int treeSize, edge, cost, randomSrc;
 public:
 	void addEdge(vector<vector<param>> *adjacents, int source, int destination, int cost);
-	void dijkstra(vector<vector<param>> adjacents, int V, int src);
+	void dijkstra(vector<vector<param>> adjacents, int V, int destination);
 	void fileBuffer();
-	void printPath(vector<int> parent, int j);
+	void printPath(vector<int> parent, int destination);
 };
 

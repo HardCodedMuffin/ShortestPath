@@ -6,16 +6,16 @@ void path::addEdge(vector<vector<param>> *adjacents, int source, int destination
     adjacents->at(destination).push_back(make_pair(source, cost));
 }
 
-void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int src)
+void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int destination)
 {
     priority_queue <param, vector <param>, greater<param> > queue;
 
     vector<int> distance(treeSize, MAX);
     vector<int> visited(treeSize);
 
-    queue.push(make_pair(0, src));
+    queue.push(make_pair(0, destination));
 
-    distance[src] = 0;
+    distance[destination] = 0;
     visited.at(0) = -1;
 
     while (!queue.empty())
@@ -30,30 +30,27 @@ void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int src)
 
             if (distance[v] > distance[u] + cost)
             {
-                visited.at(v) = u;
                 distance[v] = distance[u] + cost;
                 queue.push(make_pair(distance[v], v));
+                visited.at(v) = u;
             }
         }
     }
+    cout << randomSrc << endl;
+    cout << distance[randomSrc] << endl;
+    printPath(visited, visited[randomSrc]);
 
-    cout << "Vertex \t Distance from Source \tPath\n";
-    for (int i = 0; i < treeSize; ++i) {
-        cout << i << "\t " << distance[i] << "\t\t\t";
-        printPath(visited, visited[i]);
-        cout << endl;
-    }
 }
 
 
-void path::printPath(vector<int> visited, int src)
+void path::printPath(vector<int> visited, int destination)
 {
-    if (visited[src] == NULL)
+    if (visited[destination] == NULL)
         return;
+    
+    printPath(visited, visited[destination]);
 
-    printPath(visited, visited[src]);
-
-    cout << src << " ";
+    cout << destination << " ";
 }
 
 
@@ -67,16 +64,18 @@ void path::fileBuffer()
     }
 
     file >> treeSize >> edge >> cost;
+    
+    srand(time(NULL));
+    randomSrc = rand() % edge;
+    
     const int ncs = treeSize;
 
-    nodecst.resize(treeSize);
+    adjacents.resize(treeSize);
 
     for (int i = 0; i < treeSize; i++)
     {
         file >> node >> edge >> cost;
-        addEdge(&nodecst, node, edge, cost);
+        addEdge(&adjacents, node, edge, cost);
     }
-    srand(time(NULL));
-    randomSrc = rand() % edge;
-    dijkstra(nodecst, treeSize, randomSrc);
+    dijkstra(adjacents, treeSize, 7);
 }
