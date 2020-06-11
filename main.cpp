@@ -2,7 +2,7 @@
 
 int main()
 {
-    path aisle;
-    aisle.fileBuffer();    
+    path aisle; //Path creation
+    aisle.fileBuffer(); //Calls file reading/writing
     return 0;
 }
