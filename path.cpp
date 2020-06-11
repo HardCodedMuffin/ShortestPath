@@ -1,6 +1,6 @@
 #include "path.h"
 
-void path::addEdge(vector<vector<param>> *adjacents, int source, int destination, int cost)
+void path::addEdge(vector<vector<param>>* adjacents, int source, int destination, int cost)
 {
     adjacents->at(source).push_back(make_pair(destination, cost));
     adjacents->at(destination).push_back(make_pair(source, cost));
@@ -36,54 +36,52 @@ void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int destinati
             }
         }
     }
-    cout << randomSrc << " ";
+    outputFile << randomSrc << " ";
+    if (randomSrc != treeSize - 1)
     printPath(visited, visited[randomSrc]);
 }
 
 
 void path::printPath(vector<int> visited, int destination)
 {
-    cout << destination << " ";
+    outputFile << destination << " ";
     
-    if (visited[destination] == NULL) {
+    if (visited[destination] == NULL) 
         return;
-    }
     
+
     printPath(visited, visited[destination]);
 }
 
-
-void path::fileBuffer(bool io)
+void path::fileBuffer()
 {
-    switch (io)
-    {
-    case true:   
-        int node;
-        file.open("input.txt");
-        if (!file) {
-            cout << "Unable to open file";
-            exit(1); // terminate with error
-        }
-
-        file >> treeSize >> edge >> cost;
-
-        srand(time(NULL));
-        randomSrc = rand() % edge;
-
-        const int ncs = treeSize;
-
-        adjacents.resize(treeSize);
-
-        for (int i = 0; i < treeSize; i++)
-        {
-            file >> node >> edge >> cost;
-            addEdge(&adjacents, node, edge, cost);
-        }
-        dijkstra(adjacents, treeSize, treeSize - 1);
-    case false:
-
-    default:
-        break;
+    int node;
+    inputFile.open("input.txt");
+    outputFile.open("output.txt");
+    if (!inputFile && !outputFile) {
+        cout << "Unable to open files!";
+        exit(1);
     }
 
+    inputFile >> treeSize >> edge >> cost;
+
+    srand(time(NULL));
+    //randomSrc = rand() % edge;
+    randomSrc = 7;
+    const int ncs = treeSize;
+
+    adjacents.resize(treeSize);
+
+    for (int i = 0; i < treeSize; i++)
+    {
+        inputFile >> node >> edge >> cost;
+        addEdge(&adjacents, node, edge, cost);
+    }
+    
+    dijkstra(adjacents, treeSize, treeSize - 1);
+    
+    cout << "Done! Please check \"output.txt\" to see solution";
+    
+    inputFile.close();
+    outputFile.close();
 }
