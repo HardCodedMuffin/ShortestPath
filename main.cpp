@@ -3,7 +3,7 @@
 int main()
 {
     path aisle;
-    aisle.fileBuffer();
-
+    aisle.fileBuffer(true);
+    aisle.fileBuffer(false);
     return 0;
 }

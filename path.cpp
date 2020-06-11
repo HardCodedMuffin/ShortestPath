@@ -50,32 +50,40 @@ void path::printPath(vector<int> visited, int destination)
     }
     
     printPath(visited, visited[destination]);
-
 }
 
 
-void path::fileBuffer()
+void path::fileBuffer(bool io)
 {
-    int node;
-    file.open("input.txt");
-    if (!file) {
-        cout << "Unable to open file";
-        exit(1); // terminate with error
-    }
-
-    file >> treeSize >> edge >> cost;
-    
-    srand(time(NULL));
-    randomSrc = rand() % edge;
-    
-    const int ncs = treeSize;
-
-    adjacents.resize(treeSize);
-
-    for (int i = 0; i < treeSize; i++)
+    switch (io)
     {
-        file >> node >> edge >> cost;
-        addEdge(&adjacents, node, edge, cost);
+    case true:   
+        int node;
+        file.open("input.txt");
+        if (!file) {
+            cout << "Unable to open file";
+            exit(1); // terminate with error
+        }
+
+        file >> treeSize >> edge >> cost;
+
+        srand(time(NULL));
+        randomSrc = rand() % edge;
+
+        const int ncs = treeSize;
+
+        adjacents.resize(treeSize);
+
+        for (int i = 0; i < treeSize; i++)
+        {
+            file >> node >> edge >> cost;
+            addEdge(&adjacents, node, edge, cost);
+        }
+        dijkstra(adjacents, treeSize, treeSize - 1);
+    case false:
+
+    default:
+        break;
     }
-    dijkstra(adjacents, treeSize, treeSize-1);
+
 }

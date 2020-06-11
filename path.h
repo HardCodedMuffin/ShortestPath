@@ -20,7 +20,7 @@ private:
 public:
 	void addEdge(vector<vector<param>> *adjacents, int source, int destination, int cost);
 	void dijkstra(vector<vector<param>> adjacents, int V, int destination);
-	void fileBuffer();
+	void fileBuffer(bool io);
 	void printPath(vector<int> parent, int destination);
 };
 
