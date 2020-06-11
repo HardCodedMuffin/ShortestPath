@@ -36,20 +36,21 @@ void path::dijkstra(vector<vector<param>> adjacents, int treeSize, int destinati
             }
         }
     }
-    cout << randomSrc << endl;
-    cout << distance[randomSrc] << endl;
+    cout << randomSrc << " ";
     printPath(visited, visited[randomSrc]);
 }
 
 
 void path::printPath(vector<int> visited, int destination)
 {
-    if (visited[destination] == NULL)
+    cout << destination << " ";
+    
+    if (visited[destination] == NULL) {
         return;
+    }
     
     printPath(visited, visited[destination]);
 
-    cout << destination << " ";
 }
 
 
